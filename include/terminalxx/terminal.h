@@ -26,10 +26,10 @@
 #define TERMINALXX_TERMINAL_H
 
 #include <ef.gy/render.h>
-#include <ef.gy/maybe.h>
 #include <vector>
 #include <array>
 #include <iostream>
+#include <optional>
 #if !defined(NO_IOCTL)
 #include <sys/ioctl.h>
 #endif
@@ -44,7 +44,6 @@
  * applications. See src/matrix.cpp for an example.
  */
 namespace terminalxx {
-using efgy::maybe;
 
 /**\brief Terminal buffer cell
  *
@@ -394,19 +393,19 @@ public:
    *
    * Unlike the two-parameter resize() method, this one takes the
    * same type of argument that getOSDimensions() produces as its
-   * return value: a maybe<> of the typical 2-element size array.
-   * If the maybe contains nothing, then the size is not changed,
+   * return value: a std::optional<> of the typical 2-element size array.
+   * If the std::optional contains nothing, then the size is not changed,
    * otherwise the array is taken as a (columns, lines) vector.
    *
    * \param[in] size Target size of the buffers; buffers aren't
-   *                 resized if this maybe contains nothing.
+   *                 resized if this std::optional contains nothing.
    *
    * \returns 'true' if both buffers were successfully resized,
    *          'false' otherwise.
    */
-  bool resize(const maybe<std::array<std::size_t, 2>> &size) {
-    return size && current.resize(std::array<std::size_t, 2>(size)) &&
-           target.resize(std::array<std::size_t, 2>(size));
+  bool resize(const std::optional<std::array<std::size_t, 2>> &size) {
+    return size && current.resize(*size) &&
+           target.resize(*size);
   }
 
   /**\brief Query buffer size
@@ -431,14 +430,14 @@ public:
    *
    * \returns The size of the screen or 'nothing'.
    */
-  static maybe<std::array<std::size_t, 2>> getOSDimensions(void) {
+  static std::optional<std::array<std::size_t, 2>> getOSDimensions(void) {
 #if defined(TIOCGWINSZ)
     winsize w;
     ioctl(0, TIOCGWINSZ, &w);
-    return maybe<std::array<std::size_t, 2>>(
+    return std::optional<std::array<std::size_t, 2>>(
         std::array<std::size_t, 2>({{w.ws_col, w.ws_row}}));
 #else
-    return maybe<std::array<std::size_t, 2>>();
+    return std::optional<std::array<std::size_t, 2>>();
 #endif
   }
 
@@ -453,16 +452,16 @@ public:
    *
    * \returns The character that was read or 'nothing'.
    */
-  maybe<T> read(void) {
+  std::optional<T> read(void) {
     if (!input) {
-      return maybe<T>();
+      return std::optional<T>();
     } else {
       char n;
       if (input.get(n)) {
         queue.push_back(T(n));
-        return maybe<T>(T(n));
+        return std::optional<T>(T(n));
       } else {
-        return maybe<T>();
+        return std::optional<T>();
       }
     }
   }
@@ -501,12 +500,12 @@ public:
    */
   template <typename S>
   bool write(const std::basic_string<S> &text,
-             const maybe<std::size_t> &column = maybe<std::size_t>(),
-             const maybe<std::size_t> &line = maybe<std::size_t>(),
-             const maybe<int> &foregroundColour = maybe<int>(),
-             const maybe<int> &backgroundColour = maybe<int>()) {
-    std::size_t c = column ? std::size_t(column) : cursor[0];
-    std::size_t l = line ? std::size_t(line) : cursor[1];
+             const std::optional<std::size_t> &column = std::optional<std::size_t>(),
+             const std::optional<std::size_t> &line = std::optional<std::size_t>(),
+             const std::optional<int> &foregroundColour = std::optional<int>(),
+             const std::optional<int> &backgroundColour = std::optional<int>()) {
+    std::size_t c = column ? *column : cursor[0];
+    std::size_t l = line ? *line : cursor[1];
     std::array<std::size_t, 2> si = size();
 
     for (const S &character : text) {

@@ -12,5 +12,4 @@ dependencies.mk
 *.db
 doxyfile
 *.tag
-fetch
 include/optional

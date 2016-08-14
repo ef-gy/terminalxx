@@ -17,7 +17,6 @@
 #define TERMINALXX_VT100_H
 
 #include <terminalxx/terminal.h>
-#include <ef.gy/maybe.h>
 #include <sstream>
 #include <functional>
 
@@ -307,7 +306,7 @@ public:
     enum parserState state = text;
     std::vector<T> result;
 
-    maybe<long> vtparam;
+    std::optional<long> vtparam;
     std::vector<long> vtparams;
 
     for (T v : queue) {
@@ -350,18 +349,22 @@ public:
         case '7':
         case '8':
         case '9':
-          vtparam = (long)vtparam * 10 + (v - '0');
+          if (vtparam) {
+            vtparam = *vtparam * 10 + (v - '0');
+          } else {
+            vtparam = v - '0';
+          }
           break;
         case ';':
-          if ((bool)vtparam) {
-            vtparams.push_back((long)vtparam);
-            vtparam = maybe<long>();
+          if (vtparam) {
+            vtparams.push_back(*vtparam);
+            vtparam = std::optional<long>();
           }
           break;
         default:
-          if ((bool)vtparam) {
-            vtparams.push_back((long)vtparam);
-            vtparam = maybe<long>();
+          if (vtparam) {
+            vtparams.push_back(*vtparam);
+            vtparam = std::optional<long>();
           }
           command c(v, vtparams);
           if (!emitCommand || emitCommand(c)) {
@@ -384,9 +387,9 @@ public:
       result.push_back('[');
 
       bool first = true;
-      if ((bool)vtparam) {
-        vtparams.push_back((long)vtparam);
-        vtparam = maybe<long>();
+      if (vtparam) {
+        vtparams.push_back(*vtparam);
+        vtparam = std::optional<long>();
       }
       for (auto p : vtparams) {
         if (first) {
