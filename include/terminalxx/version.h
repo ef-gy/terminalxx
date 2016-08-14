@@ -63,6 +63,6 @@ namespace terminalxx {
  *       string? ;)
  */
 static const unsigned int version = 1;
-};
+}
 
 #endif
