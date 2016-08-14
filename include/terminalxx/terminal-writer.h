@@ -6,23 +6,22 @@
  * given offsets on the screen.
  *
  * \copyright
- * This file is part of the libefgy project, which is released as open source
+ * This file is part of the terminalxx project, which is released as open source
  * under the terms of an MIT/X11-style licence, described in the COPYING file.
  *
- * \see Project Documentation: https://ef.gy/documentation/libefgy
- * \see Project Source Code: https://github.com/ef-gy/libefgy
- * \see Licence Terms: https://github.com/ef-gy/libefgy/blob/master/COPYING
+ * \see Project Documentation: https://ef.gy/documentation/terminalxx
+ * \see Project Source Code: https://github.com/ef-gy/terminalxx
+ * \see Licence Terms: https://github.com/ef-gy/terminalxx/blob/master/COPYING
  */
 
-#if !defined(EF_GY_TERMINAL_WRITER_H)
-#define EF_GY_TERMINAL_WRITER_H
+#if !defined(TERMINALXX_TERMINAL_WRITER_H)
+#define TERMINALXX_TERMINAL_WRITER_H
 
-#include <ef.gy/terminal.h>
+#include <terminalxx/terminal.h>
 #include <string>
 #include <algorithm>
 
-namespace efgy {
-namespace terminal {
+namespace terminalxx {
 
 /**\brief Terminal Helper Extension
  *
@@ -422,7 +421,6 @@ protected:
    */
   terminal<T> &output;
 };
-}
 }
 
 #endif

@@ -2,31 +2,30 @@
  * \ingroup example-programmes
  * \brief Matrix-esque terminal animation
  *
- * This is a terminal programme that uses libefgy's vt100 code to render a text
+ * This is a terminal programme that uses terminalxx's vt100 code to render a text
  * version of the matrix 'scrolling streams of text' animation. It's really
  * fairly simple but also kinda nice to see how the vt100 output is performing.
  *
  * \image html matrix.png "Screenshot of the programme running in Terminal.app"
  *
  * \copyright
- * This file is part of the libefgy project, which is released as open source
+ * This file is part of the terminalxx project, which is released as open source
  * under the terms of an MIT/X11-style licence, described in the COPYING file.
  *
- * \see Project Documentation: https://ef.gy/documentation/libefgy
- * \see Project Source Code: https://github.com/ef-gy/libefgy
- * \see Licence Terms: https://github.com/ef-gy/libefgy/blob/master/COPYING
+ * \see Project Documentation: https://ef.gy/documentation/terminalxx
+ * \see Project Source Code: https://github.com/ef-gy/terminalxx
+ * \see Licence Terms: https://github.com/ef-gy/terminalxx/blob/master/COPYING
  */
 
 #include <iostream>
 
-#include <ef.gy/vt100.h>
+#include <terminalxx/vt100.h>
 #include <chrono>
 #include <csignal>
 #include <cmath>
 #include <sched.h>
 #include <random>
 
-using namespace efgy;
 using namespace std::chrono;
 
 /**\brief Data and functions related to the matrix demo
@@ -40,7 +39,7 @@ namespace thematrix {
  * Encapsulates stdio to automatically generate the terminal escape
  * sequences to write things at specific positions with specific colours.
  */
-terminal::vt100<> output;
+terminalxx::vt100<> output;
 
 /**\brief Random number generator
  *
@@ -219,9 +218,9 @@ void handle_interrupt(int signal) { exit(0); }
  * easier for the optimiser as it won't have to switch colours quite as
  * often as it otherwise might.
  */
-terminal::cell<long> postProcess(const terminal::terminal<long> &t,
+terminalxx::cell<long> postProcess(const terminalxx::terminal<long> &t,
                                  const std::size_t &l, const std::size_t &c) {
-  terminal::cell<long> rv = t.target[l][c];
+  terminalxx::cell<long> rv = t.target[l][c];
   rv.content = rv.content == 0 ? ' ' : rv.content;
   rv.foregroundColour = rv.foregroundColour == 7 ? 7 : 2;
   rv.backgroundColour = 0;
@@ -235,7 +234,7 @@ terminal::cell<long> postProcess(const terminal::terminal<long> &t,
  * matrix-y. You'll have to modify the main() function yourself if you want
  * to see this in action.
  */
-terminal::cell<long> postProcessPolar(const terminal::terminal<long> &t,
+terminalxx::cell<long> postProcessPolar(const terminalxx::terminal<long> &t,
                                       const std::size_t &pl,
                                       const std::size_t &pc) {
   double l = pl;
@@ -251,8 +250,8 @@ terminal::cell<long> postProcessPolar(const terminal::terminal<long> &t,
   c = hc + coff + std::cos(r) * 1.0;
   const std::size_t tl = (std::size_t)l < s[1] ? (std::size_t)l : (s[1] - 1);
   const std::size_t tc = (std::size_t)c < s[0] ? (std::size_t)c : (s[0] - 1);
-  terminal::cell<long> rv = t.target[tl][tc];
-  terminal::cell<long> cv = t.current[tl][tc];
+  terminalxx::cell<long> rv = t.target[tl][tc];
+  terminalxx::cell<long> cv = t.current[tl][tc];
   rv.content =
       rv.content == 0 ? (cv.content == 0 ? ' ' : cv.content) : rv.content;
   rv.foregroundColour = rv.foregroundColour == 7 ? 7 : 2;

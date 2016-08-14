@@ -5,19 +5,19 @@
  * frontend.
  *
  * \copyright
- * This file is part of the libefgy project, which is released as open source
+ * This file is part of the terminalxx project, which is released as open source
  * under the terms of an MIT/X11-style licence, described in the COPYING file.
  *
- * \see Project Documentation: https://ef.gy/documentation/libefgy
- * \see Project Source Code: https://github.com/ef-gy/libefgy
- * \see Licence Terms: https://github.com/ef-gy/libefgy/blob/master/COPYING
+ * \see Project Documentation: https://ef.gy/documentation/terminalxx
+ * \see Project Source Code: https://github.com/ef-gy/terminalxx
+ * \see Licence Terms: https://github.com/ef-gy/terminalxx/blob/master/COPYING
  */
 
 #include <ef.gy/test-case.h>
 
-#include <ef.gy/vt100.h>
+#include <terminalxx/vt100.h>
 
-using namespace efgy::terminal;
+using namespace terminalxx;
 
 /**\brief Tests the vt100 command decoder
  * \test Tries to decode a set of vt100 commands to see if the result is as

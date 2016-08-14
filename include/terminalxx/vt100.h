@@ -2,27 +2,26 @@
  * \brief VT100 terminal frontend implementation
  *
  * This file contains code to drive a vt100-like terminal using the data in a
- * terminal::terminal instance.
+ * terminalxx::terminal instance.
  *
  * \copyright
- * This file is part of the libefgy project, which is released as open source
+ * This file is part of the terminalxx project, which is released as open source
  * under the terms of an MIT/X11-style licence, described in the COPYING file.
  *
- * \see Project Documentation: https://ef.gy/documentation/libefgy
- * \see Project Source Code: https://github.com/ef-gy/libefgy
- * \see Licence Terms: https://github.com/ef-gy/libefgy/blob/master/COPYING
+ * \see Project Documentation: https://ef.gy/documentation/terminalxx
+ * \see Project Source Code: https://github.com/ef-gy/terminalxx
+ * \see Licence Terms: https://github.com/ef-gy/terminalxx/blob/master/COPYING
  */
 
-#if !defined(EF_GY_VT100_H)
-#define EF_GY_VT100_H
+#if !defined(TERMINALXX_VT100_H)
+#define TERMINALXX_VT100_H
 
-#include <ef.gy/terminal.h>
+#include <terminalxx/terminal.h>
 #include <ef.gy/maybe.h>
 #include <sstream>
 #include <functional>
 
-namespace efgy {
-namespace terminal {
+namespace terminalxx {
 /**\brief VT100 terminal frontend
  *
  * A frontend for the terminal::terminal template, this class
@@ -504,7 +503,6 @@ private:
 
   enum parserState { text, escape1, escape2 };
 };
-};
-};
+}
 
 #endif

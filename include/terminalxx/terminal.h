@@ -3,27 +3,27 @@
  *
  * This header contains templates that should make it fairly easy to use
  * text-based terminals efficiently. The general idea is that this header
- * provides a class template, terminal::terminal, with two screen buffers, one
+ * provides a class template, terminalxx::terminal, with two screen buffers, one
  * for the current state of the terminal and one for the target state of the
  * terminal. Terminal-specific classes can then derive from this base class and
  * implement efficient algorithms to transform the terminal state from the
  * current state to the target state.
  *
- * One such deriving class is terminal::vt100, see ef.gy/vt100.h for more
+ * One such deriving class is terminal::vt100, see terminalxx/vt100.h for more
  * details on that. Also see src/matrix.cpp for some example code if you're
  * stuck with the documentation for some reason.
  *
  * \copyright
- * This file is part of the libefgy project, which is released as open source
+ * This file is part of the terminalxx project, which is released as open source
  * under the terms of an MIT/X11-style licence, described in the COPYING file.
  *
- * \see Project Documentation: https://ef.gy/documentation/libefgy
- * \see Project Source Code: https://github.com/ef-gy/libefgy
- * \see Licence Terms: https://github.com/ef-gy/libefgy/blob/master/COPYING
+ * \see Project Documentation: https://terminalxx/documentation/terminalxx
+ * \see Project Source Code: https://github.com/ef-gy/terminalxx
+ * \see Licence Terms: https://github.com/ef-gy/terminalxx/blob/master/COPYING
  */
 
-#if !defined(EF_GY_TERMINAL_H)
-#define EF_GY_TERMINAL_H
+#if !defined(TERMINALXX_TERMINAL_H)
+#define TERMINALXX_TERMINAL_H
 
 #include <ef.gy/render.h>
 #include <ef.gy/maybe.h>
@@ -37,14 +37,15 @@
 #include <termios.h>
 #endif
 
-namespace efgy {
 /**\brief Terminal I/O helpers
  *
  * Contains classes and templates that should make it easy - or at least
  * easier - to produce snappy TUI interfaces, or other terminal
  * applications. See src/matrix.cpp for an example.
  */
-namespace terminal {
+namespace terminalxx {
+using efgy::maybe;
+
 /**\brief Terminal buffer cell
  *
  * Contains all the attributes associated with an individual cell in a
@@ -556,7 +557,6 @@ private:
   termios originalTerminalFlags;
 #endif
 };
-};
-};
+}
 
 #endif
