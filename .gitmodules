@@ -1,7 +1,4 @@
-[submodule "dependencies/asio"]
-	path = dependencies/asio
-	url = https://github.com/chriskohlhoff/asio.git
-	branch = master
 [submodule "dependencies/libefgy"]
 	path = dependencies/libefgy
 	url = https://github.com/ef-gy/libefgy.git
+	branch = master
